@@ -10,9 +10,11 @@ import flask
 import requests
 import mysql.connector
 import os
+import time
 from dotenv import load_dotenv
+from pathlib import Path
 
-load_dotenv()
+load_dotenv(dotenv_path=Path(__file__).parent / ".env")
 
 app = flask.Flask(__name__)
 
@@ -39,7 +41,7 @@ def get_coin():
     alle_coins = []
     fehler_count = 0
 
-    for seite in range(1, 101):
+    for seite in range(1, 51):
         url = (
             f"https://api.coingecko.com/api/v3/coins/markets"
             f"?vs_currency=eur&page={seite}"
@@ -54,11 +56,13 @@ def get_coin():
             continue
 
         if not isinstance(daten, list) or len(daten) == 0:
-            print(f"Seite {seite}: Keine Daten mehr – Schleife beendet.")
+            print(f"Seite {seite}: Keine Daten mehr - Schleife beendet.")
             break
 
         print(f"Seite {seite}: {len(daten)} Coins abgerufen.")
         alle_coins.extend(daten)
+
+        time.sleep(15)  # Rate Limit: max ~30 Requests/Minute bei CoinGecko Free
 
         for coin in daten:
             coin_sql = """
