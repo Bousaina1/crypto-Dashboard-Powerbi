@@ -1,7 +1,16 @@
 # Crypto Dashboard – Power BI
 
-Automatisiertes System zur Historisierung von Kryptowährungs-Marktdaten.  
-Daten kommen von der CoinGecko API, werden in MariaDB gespeichert und in Power BI visualisiert.
+Wie entwickeln sich Kryptowährungspreise über Zeit, und wie baut 
+man eine vollautomatische Datenpipeline von Grund auf?
+
+Automatisierte Historisierung von Marktdaten für 10+ Coins: 
+CoinGecko API → Flask → MariaDB (Docker) → Power BI.
+Pipeline läuft seit ~14 Tagen, hat 339 Abrufe und 
+23.999 Datenpunkte gesammelt, vollautomatisch via Windows Task Scheduler.
+
+**Kernarchitektur:** Flask startet pro Lauf, schreibt in MariaDB 
+via Docker, Windows Task Scheduler automatisiert die Ausführung 
+täglich kein manueller Eingriff nötig.
 
 ## Projektstruktur
 
