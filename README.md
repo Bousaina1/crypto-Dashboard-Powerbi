@@ -10,7 +10,17 @@ Pipeline läuft seit ~14 Tagen, hat 339 Abrufe und
 
 **Kernarchitektur:** Flask startet pro Lauf, schreibt in MariaDB 
 via Docker, Windows Task Scheduler automatisiert die Ausführung 
-täglich kein manueller Eingriff nötig.
+täglich, kein manueller Eingriff nötig.
+
+## Dashboard Screenshots
+
+### Seite 1 – Aktueller Überblick
+![Seite 1](screenshots/seite1.png)
+Aktuelle Preise, Market Cap Rank und 24h-Veränderung für 10+ Coins.
+
+### Seite 2 – Historische Analyse
+![Seite 2](screenshots/seite2.png)
+Preisverlauf über 14 Tage – automatisch gesammelt, täglich aktualisiert.
 
 ## Projektstruktur
 
@@ -89,14 +99,6 @@ ORDER BY collected_at;
 -- Anzahl Historisierungsläufe
 SELECT COUNT(DISTINCT collected_at) AS anzahl_laeufe FROM market_history;
 ```
-
-## Dashboard Screenshots
-
-### Seite 1 – Aktueller Überblick
-![Seite 1](screenshots/seite1.png)
-
-### Seite 2 – Historische Analyse
-![Seite 2](screenshots/seite2.png)
 
 ## Power BI Views
 
