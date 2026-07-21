@@ -32,7 +32,7 @@ crypto-dashboard-powerbi/
 
 ### 1. Repository klonen & Umgebung vorbereiten
 ```bash
-git clone https://github.com/DEIN-USERNAME/crypto-dashboard-powerbi.git
+git clone https://github.com/Bousaina1/crypto-dashboard-powerbi.git
 cd crypto-dashboard-powerbi
 cp .env.example .env
 # .env öffnen und Passwort eintragen
@@ -88,4 +88,48 @@ ORDER BY collected_at;
 
 -- Anzahl Historisierungsläufe
 SELECT COUNT(DISTINCT collected_at) AS anzahl_laeufe FROM market_history;
+```
+
+## Dashboard Screenshots
+
+### Seite 1 – Aktueller Überblick
+![Seite 1](screenshots/seite1.png)
+
+### Seite 2 – Historische Analyse
+![Seite 2](screenshots/seite2.png)
+
+## Power BI Views
+
+```sql
+-- View für aktuelle Daten (Seite 1)
+CREATE VIEW crypto_aktuell AS
+SELECT 
+    coin_id AS name,
+    current_price,
+    market_cap_rank,
+    high_24h,
+    low_24h,
+    price_change_24h,
+    total_volume,
+    collected_at
+FROM market_history
+WHERE coin_id REGEXP '^[a-zA-Z]'
+AND collected_at = (
+    SELECT MAX(m2.collected_at) 
+    FROM market_history m2
+    WHERE m2.coin_id = market_history.coin_id
+);
+
+-- View für historische Daten (Seite 2)
+CREATE VIEW crypto_historisch AS
+SELECT 
+    coin_id AS name,
+    current_price,
+    market_cap_rank,
+    price_change_24h,
+    total_volume,
+    DATE(collected_at) AS datum
+FROM market_history
+WHERE coin_id REGEXP '^[a-zA-Z]'
+ORDER BY coin_id, collected_at;
 ```
